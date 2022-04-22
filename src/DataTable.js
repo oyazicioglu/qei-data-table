@@ -26,6 +26,23 @@ export class DataTable {
         this.headers = headers;
     }
 
+    /**
+     * @param {Row} row
+     */
+    addRow(row) {
+        this.rows.push(row);
+    }
+
+    /**
+     * @param {Header} header
+     */
+    addHeader(header) {
+        this.headers.push(header);
+    }
+
+    /**
+     * @param {JSON} jsonData
+     */
     createFromJsonData(jsonData) {
         const jsonAdapter = new JsonTableAdapter(jsonData);
         this.setHeaders(jsonAdapter.createHeaders());
