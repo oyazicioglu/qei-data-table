@@ -1,0 +1,15 @@
+{
+  "name": "qei-data-table",
+  "version": "1.0.0",
+  "description": "Data Table Utility",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watch"
+  },
+  "author": "Ömer YAZICIOĞLU",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "@types/jest": "^27.4.1",
+    "jest": "^27.5.1"
+  }
+}
