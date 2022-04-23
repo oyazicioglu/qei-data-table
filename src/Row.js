@@ -1,11 +1,11 @@
-import { Column } from './Column.js';
+import { Cell } from './Cell.js';
 
 export class Row {
     /** @type {number} */
     index;
 
-    /** @type {Column[]} */
-    columns;
+    /** @type {Cell[]} */
+    cells;
 
     /** @type {boolean} */
     selectable;
@@ -16,13 +16,13 @@ export class Row {
     /**
      * @param {Object} constructor
      * @param {number} constructor.index
-     * @param {Column[]} constructor.columns
+     * @param {Cell[]} constructor.cells
      * @param {boolean} constructor.selectable
      * @param {boolean} constructor.visible
      */
-    constructor({ index, columns = [], selectable = true, visible = true }) {
+    constructor({ index, cells = [], selectable = true, visible = true }) {
         this.index = index;
-        this.columns = columns;
+        this.cells = cells;
         this.selectable = selectable;
         this.visible = visible;
     }
@@ -35,17 +35,17 @@ export class Row {
     }
 
     /**
-     * @param {Column[]} columns
+     * @param {Cell[]} cells
      */
-    setColumns(columns) {
-        this.columns = columns;
+    setCells(cells) {
+        this.cells = cells;
     }
 
     /**
-     * @param {Column} column
+     * @param {Cell} cell
      */
-    addColumn(column) {
-        this.columns.push(column);
+    addCell(cell) {
+        this.cells.push(cell);
     }
 
     /**

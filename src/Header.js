@@ -1,6 +1,6 @@
-import { Column } from './Column.js';
+import { Cell } from './Cell.js';
 
-export class Header extends Column {
+export class Header extends Cell {
     /** @type {boolean} */
     sortable;
 
@@ -19,6 +19,14 @@ export class Header extends Column {
     constructor({ index = 0, key, sortable = true, visible = true, value, type = 'string' }) {
         super({ index, key, value, type });
         this.sortable = sortable;
+        this.visible = visible;
+    }
+
+    setSortable(sortable) {
+        this.sortable = sortable;
+    }
+
+    setVisible(visible) {
         this.visible = visible;
     }
 

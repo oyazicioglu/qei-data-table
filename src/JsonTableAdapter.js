@@ -1,4 +1,4 @@
-import { Column } from './Column.js';
+import { Cell } from './Cell.js';
 import { DataTable } from './DataTable.js';
 import { Row } from './Row.js';
 
@@ -22,7 +22,7 @@ export class JsonTableAdapter {
     }
 
     /**
-     * @return {Column[]}
+     * @return {Cell[]}
      */
     createHeaders() {}
 
