@@ -1,4 +1,4 @@
-import { Column } from './Column';
+import { Column } from './Column.js';
 
 export class Row {
     /** @type {number} */
@@ -13,6 +13,13 @@ export class Row {
     /** @type {boolean} */
     visible;
 
+    /**
+     * @param {Object} constructor
+     * @param {number} constructor.index
+     * @param {Column[]} constructor.columns
+     * @param {boolean} constructor.selectable
+     * @param {boolean} constructor.visible
+     */
     constructor({ index, columns = [], selectable = true, visible = true }) {
         this.index = index;
         this.columns = columns;

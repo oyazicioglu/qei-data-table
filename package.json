@@ -2,7 +2,8 @@
     "name": "qei-data-table",
     "version": "1.0.0",
     "description": "Data Table Utility",
-    "main": "src/index.js",
+    "main": "index.js",
+    "type": "module",
     "scripts": {
         "test": ""
     },

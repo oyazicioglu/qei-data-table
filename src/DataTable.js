@@ -1,6 +1,6 @@
-import { Header } from './Header';
-import { JsonTableAdapter } from './JsonTableAdapter';
-import { Row } from './Row';
+import { Header } from './Header.js';
+import { JsonTableAdapter } from './JsonTableAdapter.js';
+import { Row } from './Row.js';
 
 export class DataTable {
     /**

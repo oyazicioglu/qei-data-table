@@ -3,9 +3,6 @@ export class Column {
     index;
 
     /** @type {string} */
-    label;
-
-    /** @type {string} */
     key;
 
     /** @type {string} */
@@ -13,12 +10,17 @@ export class Column {
 
     value;
 
-    constructor({ index = 0, label, key, value, type = 'string' }) {
+    /**
+     * @param {Object} constructor
+     * @param {number} constructor.index
+     * @param {string} constructor.label
+     * @param {string} constructor.key
+     * @param {any} constructor.value
+     * @param {string} constructor.value
+     */
+    constructor({ index = 0, key, value, type = 'string' }) {
         this.index = index;
-        this.label = label;
         this.key = key;
-        this.sortable = sortable;
-        this.visible = visible;
         this.type = type;
         this.value = value;
     }
