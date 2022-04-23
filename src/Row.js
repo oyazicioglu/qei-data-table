@@ -1,9 +1,6 @@
 import { Cell } from './Cell.js';
 
 export class Row {
-    /** @type {number} */
-    #index;
-
     /** @type {Cell[]} */
     #cells;
 
@@ -15,23 +12,26 @@ export class Row {
 
     /**
      * @param {Object} constructor
-     * @param {number} constructor.index
      * @param {Cell[]} constructor.cells
      * @param {boolean} constructor.selectable
      * @param {boolean} constructor.visible
      */
-    constructor({ index, cells = [], selectable = true, visible = true }) {
-        this.#index = index;
+    constructor({ cells = [], selectable = true, visible = true }) {
         this.#cells = cells;
         this.#selectable = selectable;
         this.#visible = visible;
     }
 
-    /**
-     * @param {number} index
-     */
-    setIndex(index) {
-        this.#index = index;
+    isVisible() {
+        return this.#visible;
+    }
+
+    isSelectable() {
+        return this.#selectable;
+    }
+
+    getCells() {
+        return this.#cells;
     }
 
     /**
@@ -64,7 +64,6 @@ export class Row {
 
     toValueObject() {
         return {
-            index: this.#index,
             cells: this.#cells.map((c) => c.toValueObject()),
             selectable: this.#selectable,
             visible: this.#visible,

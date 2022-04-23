@@ -1,7 +1,4 @@
 export class Cell {
-    /** @type {number} */
-    #index;
-
     /** @type {string} */
     #key;
 
@@ -13,20 +10,14 @@ export class Cell {
 
     /**
      * @param {Object} constructor
-     * @param {number} constructor.index
      * @param {string} constructor.key
      * @param {any} constructor.value
      * @param {string} constructor.type
      */
-    constructor({ index = 0, key, value, type = 'string' }) {
-        this.#index = index;
+    constructor({ key, value, type = 'string' }) {
         this.#key = key;
         this.#value = value;
         this.#type = type;
-    }
-
-    getIndex() {
-        return this.#index;
     }
 
     getKey() {
@@ -39,13 +30,6 @@ export class Cell {
 
     getType() {
         return this.#type;
-    }
-
-    /**
-     * @param {number} index
-     */
-    setIndex(index) {
-        this.#index = index;
     }
 
     /**
@@ -71,7 +55,6 @@ export class Cell {
 
     toValueObject() {
         return {
-            index: this.#index,
             key: this.#key,
             value: this.#value,
             type: this.#type,
