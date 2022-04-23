@@ -1,17 +1,12 @@
 import { Cell } from './Cell.js';
-import { DataTable } from './DataTable.js';
 import { Row } from './Row.js';
 
 export class JsonTableAdapter {
-    /** @type {DataTable} */
-    dataTable;
-
     /**
      * @param {JSON} jsonData
      */
     constructor(jsonData) {
-        this.jsonData = jsonData;
-        this.dataTable = new DataTable();
+        this.setJsonData(jsonData);
     }
 
     /**
@@ -19,6 +14,7 @@ export class JsonTableAdapter {
      */
     setJsonData(jsonData) {
         this.jsonData = jsonData;
+        console.log(this.jsonData);
     }
 
     /**

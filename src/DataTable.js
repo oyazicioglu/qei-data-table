@@ -1,10 +1,10 @@
-import { Header } from './Header.js';
+import { HeaderCell } from './HeaderCell.js';
 import { JsonTableAdapter } from './JsonTableAdapter.js';
 import { Row } from './Row.js';
 
 export class DataTable {
     /**
-     * @param {Header[]} headers
+     * @param {HeaderCell[]} headers
      * @param {Row[]} rows
      */
     constructor(headers = [], rows = []) {
@@ -20,7 +20,7 @@ export class DataTable {
     }
 
     /**
-     * @param {Header[]} headers
+     * @param {HeaderCell[]} headers
      */
     setHeaders(headers) {
         this.headers = headers;
@@ -34,7 +34,7 @@ export class DataTable {
     }
 
     /**
-     * @param {Header} header
+     * @param {HeaderCell} header
      */
     addHeader(header) {
         this.headers.push(header);

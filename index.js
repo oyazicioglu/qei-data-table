@@ -1,5 +1,5 @@
 import { DataTable } from './src/DataTable.js';
-import { Header } from './src/Header.js';
+import { HeaderCell } from './src/HeaderCell.js';
 
 const jsonData = {
     headers: [
@@ -25,11 +25,12 @@ const jsonData = {
 };
 
 const headers = [
-    new Header({ index: 0, label: 'Header 1', key: 'header1', sortable: true, visible: true }),
-    new Header({ index: 1, label: 'Header 2', key: 'header2', sortable: true, visible: true }),
-    new Header({ index: 2, label: 'Header 3', key: 'header3', sortable: true, visible: true }),
-    new Header({ index: 3, label: 'Header 4', key: 'header4', sortable: true, visible: false }),
+    new HeaderCell({ index: 0, label: 'Header 1', key: 'header1', sortable: true, visible: true }),
+    new HeaderCell({ index: 1, label: 'Header 2', key: 'header2', sortable: true, visible: true }),
+    new HeaderCell({ index: 2, label: 'Header 3', key: 'header3', sortable: true, visible: true }),
+    new HeaderCell({ index: 3, label: 'Header 4', key: 'header4', sortable: true, visible: false }),
 ];
 const dataTable = new DataTable();
-dataTable.setHeaders(headers);
-dataTable.addHeader(new Header({ index: 4, key: 'header5', value: 'Header 5', sortable: false, visible: true }));
+/* dataTable.setHeaders(headers);
+dataTable.addHeader(new Header({ index: 4, key: 'header5', value: 'Header 5', sortable: false, visible: true })); */
+dataTable.createFromJsonData(jsonData);

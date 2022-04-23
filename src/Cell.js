@@ -26,7 +26,6 @@ export class Cell {
     }
 
     /**
-     *
      * @param {number} index
      */
     setIndex(index) {

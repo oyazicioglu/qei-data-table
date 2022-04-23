@@ -1,43 +1,32 @@
-import { Cell } from './Cell.js';
+import { HeaderCell } from './HeaderCell';
 
-export class Header extends Cell {
-    /** @type {boolean} */
-    sortable;
-
-    /** @type {boolean} */
-    visible;
+export class Header {
+    /** @type {HeaderCell[]} */
+    cells;
 
     /**
-     * @param {Object} constructor
-     * @param {number} constructor.index
-     * @param {string} constructor.key
-     * @param {string} constructor.type
-     * @param {any} constructor.value
-     * @param {boolean} constructor.sortable
-     * @param {boolean} constructor.visible
+     * @param {HeaderCell[]} cells
      */
-    constructor({ index = 0, key, sortable = true, visible = true, value, type = 'string' }) {
-        super({ index, key, value, type });
-        this.sortable = sortable;
-        this.visible = visible;
+    constructor(cells = []) {
+        this.setCells(cells);
     }
 
-    setSortable(sortable) {
-        this.sortable = sortable;
+    /**
+     * @param {HeaderCell[]} cells
+     */
+    setCells(cells) {
+        this.cells = cells;
     }
 
-    setVisible(visible) {
-        this.visible = visible;
+    /**
+     * @param {HeaderCell} cell
+     */
+    addCell(cell) {
+        this.cells.push(cell);
     }
 
-    toValueObject() {
-        return {
-            index: this.index,
-            key: this.key,
-            value: this.value,
-            visible: this.visible,
-            sortable: this.sortable,
-            type: this.type,
-        };
+    removeCell(cell) {
+        const restCells = this.cells.filter((c) => c !== cell);
+        this.cells = restCells;
     }
 }
