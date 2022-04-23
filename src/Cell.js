@@ -1,15 +1,15 @@
 export class Cell {
     /** @type {number} */
-    index;
+    #index;
 
     /** @type {string} */
-    key;
+    #key;
 
     /** @type {string} */
-    type;
+    #type;
 
     /** @type {any} */
-    value;
+    #value;
 
     /**
      * @param {Object} constructor
@@ -19,37 +19,62 @@ export class Cell {
      * @param {string} constructor.type
      */
     constructor({ index = 0, key, value, type = 'string' }) {
-        this.index = index;
-        this.key = key;
-        this.value = value;
-        this.type = type;
+        this.#index = index;
+        this.#key = key;
+        this.#value = value;
+        this.#type = type;
+    }
+
+    getIndex() {
+        return this.#index;
+    }
+
+    getKey() {
+        return this.#key;
+    }
+
+    getValue() {
+        return this.#value;
+    }
+
+    getType() {
+        return this.#type;
     }
 
     /**
      * @param {number} index
      */
     setIndex(index) {
-        this.index = index;
+        this.#index = index;
     }
 
     /**
      * @param {any} value
      */
     setValue(value) {
-        this.value = value;
+        this.#value = value;
     }
 
     /**
      * @param {string} key
      */
     setKey(key) {
-        this.key = key;
+        this.#key = key;
     }
 
     /**
      * @param {string} type
      */
     setType(type) {
-        this.type = type;
+        this.#type = type;
+    }
+
+    toValueObject() {
+        return {
+            index: this.#index,
+            key: this.#key,
+            value: this.#value,
+            type: this.#type,
+        };
     }
 }

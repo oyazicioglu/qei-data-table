@@ -12,6 +12,14 @@ export class DataTable {
         this.rows = rows;
     }
 
+    getHeaders() {
+        return this.headers;
+    }
+
+    getRows() {
+        return this.rows;
+    }
+
     /**
      * @param {Row[]} rows
      */
@@ -47,5 +55,12 @@ export class DataTable {
         const jsonAdapter = new JsonTableAdapter(jsonData);
         this.setHeaders(jsonAdapter.createHeaders());
         this.setRows(jsonAdapter.createRows());
+    }
+
+    toValueObject() {
+        return {
+            headers: this.headers.map((header) => header.toValueObject()),
+            rows: this.rows.map((row) => row.toValueObject()),
+        };
     }
 }

@@ -2,10 +2,10 @@ import { Cell } from './Cell.js';
 
 export class HeaderCell extends Cell {
     /** @type {boolean} */
-    sortable;
+    #sortable;
 
     /** @type {boolean} */
-    visible;
+    #visible;
 
     /**
      * @param {Object} constructor
@@ -18,26 +18,26 @@ export class HeaderCell extends Cell {
      */
     constructor({ index = 0, key, sortable = true, visible = true, value, type = 'string' }) {
         super({ index, key, value, type });
-        this.sortable = sortable;
-        this.visible = visible;
+        this.#sortable = sortable;
+        this.#visible = visible;
     }
 
     setSortable(sortable) {
-        this.sortable = sortable;
+        this.#sortable = sortable;
     }
 
     setVisible(visible) {
-        this.visible = visible;
+        this.#visible = visible;
     }
 
     toValueObject() {
         return {
-            index: this.index,
-            key: this.key,
-            value: this.value,
-            visible: this.visible,
-            sortable: this.sortable,
-            type: this.type,
+            index: this.getIndex(),
+            key: this.getKey(),
+            value: this.getValue(),
+            visible: this.#visible,
+            sortable: this.#sortable,
+            type: this.getType(),
         };
     }
 }
