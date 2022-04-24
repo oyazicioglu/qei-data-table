@@ -1,4 +1,5 @@
 import { Cell } from './Cell.js';
+import { Utils } from './Utils.js';
 
 export class Row {
     /** @type {Cell[]} */
@@ -10,6 +11,8 @@ export class Row {
     /** @type {boolean} */
     #visible;
 
+    #uuid;
+
     /**
      * @param {Object} constructor
      * @param {Cell[]} constructor.cells
@@ -20,6 +23,7 @@ export class Row {
         this.#cells = cells;
         this.#selectable = selectable;
         this.#visible = visible;
+        this.#uuid = Utils.createUUID();
     }
 
     isVisible() {
@@ -32,6 +36,10 @@ export class Row {
 
     getCells() {
         return this.#cells;
+    }
+
+    getUUId() {
+        return this.#uuid;
     }
 
     /**

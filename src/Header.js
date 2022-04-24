@@ -1,14 +1,18 @@
-import { HeaderCell } from './HeaderCell';
+import { HeaderCell } from './HeaderCell.js';
+import { Utils } from './Utils.js';
 
 export class Header {
     /** @type {HeaderCell[]} */
     #cells;
+
+    #uuid;
 
     /**
      * @param {HeaderCell[]} cells
      */
     constructor(cells = []) {
         this.#setCells(cells);
+        this.#uuid = Utils.createUUID();
     }
 
     getCells() {
@@ -32,6 +36,10 @@ export class Header {
     removeCell(cell) {
         const restCells = this.#cells.filter((c) => c !== cell);
         this.#cells = restCells;
+    }
+
+    getUUId() {
+        return this.#uuid;
     }
 
     toValueObject() {

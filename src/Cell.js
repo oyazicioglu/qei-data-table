@@ -1,3 +1,5 @@
+import { Utils } from './Utils.js';
+
 export class Cell {
     /** @type {string} */
     #key;
@@ -7,6 +9,9 @@ export class Cell {
 
     /** @type {any} */
     #value;
+
+    /** @type {string} */
+    #uuid;
 
     /**
      * @param {Object} constructor
@@ -18,6 +23,7 @@ export class Cell {
         this.#key = key;
         this.#value = value;
         this.#type = type;
+        this.#uuid = Utils.createUUID();
     }
 
     getKey() {
@@ -30,6 +36,10 @@ export class Cell {
 
     getType() {
         return this.#type;
+    }
+
+    getUUId() {
+        return this.#uuid;
     }
 
     /**
