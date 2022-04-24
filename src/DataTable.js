@@ -3,8 +3,6 @@ import { JsonTableAdapter } from './JsonTableAdapter.js';
 import { Row } from './Row.js';
 
 export class DataTable {
-    #eventTarget = new EventTarget();
-
     /**
      * @param {HeaderCell[]} headers
      * @param {Row[]} rows
@@ -14,12 +12,12 @@ export class DataTable {
         this.rows = rows;
     }
 
-    getHeaders() {
-        return this.headers.filter((h) => h.isVisible());
+    getHeaders(showHidden = false) {
+        return showHidden ? this.headers : this.headers.filter((h) => h.isVisible());
     }
 
-    getRows() {
-        return this.rows.filter((r) => r.isVisible());
+    getRows(showHidden = false) {
+        return showHidden ? this.rows : this.rows.filter((r) => r.isVisible());
     }
 
     /**
@@ -27,11 +25,6 @@ export class DataTable {
      */
     setRows(rows) {
         this.rows = rows;
-        this.#eventTarget.dispatchEvent(new CustomEvent('rowChanged', { rows }));
-    }
-
-    onRowsChanged(listener) {
-        this.#eventTarget.addEventListener('rowChanged', listener);
     }
 
     /**

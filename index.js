@@ -66,11 +66,6 @@ const rows = [
 ];
 
 const dataTable = new DataTable(headers, rows);
-
-dataTable.onRowsChanged((e) => {
-    console.log(e.detail);
-});
-
 dataTable.addHeader(new HeaderCell({ key: 'header5', value: 'Header 5', sortable: false, visible: true }));
 const valueObject = dataTable.toValueObject();
 const tableRows = dataTable.getRows();
