@@ -1,5 +1,5 @@
 /**
- * @typedef {'onRowChanged' | 'onHeaderChanged'} eventName
+ * @typedef {'onRowChanged' | 'onRowsSet' | 'onHeaderChanged' | 'onHeadersSet'} eventName
  */
 
 export class Subject {
@@ -9,7 +9,7 @@ export class Subject {
 
     /**
      * @param {eventName} eventName
-     * @param {(data: any) => void} callback
+     * @param {CallableFunction} callback
      */
     subscribe(eventName, callback) {
         const handlers = this.events[eventName] || [];

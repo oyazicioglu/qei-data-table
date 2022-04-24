@@ -22,6 +22,14 @@ export class DataTable {
         return showHidden ? this.rows : this.rows.filter((r) => r.isVisible());
     }
 
+    onRowsSet(callback) {
+        this.subject.subscribe('onRowsSet', callback);
+    }
+
+    onHeadersSet(callback) {
+        this.subject.subscribe('onHeadersSet', callback);
+    }
+
     onRowChanged(callback) {
         this.subject.subscribe('onRowChanged', callback);
     }
@@ -35,7 +43,7 @@ export class DataTable {
      */
     setRows(rows) {
         this.rows = rows;
-        this.subject.notify('onRowChanged', rows);
+        this.subject.notify('onRowsSet', { detail: rows });
     }
 
     /**
@@ -43,7 +51,7 @@ export class DataTable {
      */
     setHeaders(headers) {
         this.headers = headers;
-        this.subject.notify('onHeaderChanged', headers);
+        this.subject.notify('onHeadersSet', { detail: headers });
     }
 
     /**
@@ -51,7 +59,7 @@ export class DataTable {
      */
     addRow(row) {
         this.rows.push(row);
-        this.subject.notify('onRowChanged', row);
+        this.subject.notify('onRowChanged', { detail: row });
     }
 
     /**
@@ -59,7 +67,7 @@ export class DataTable {
      */
     addHeader(header) {
         this.headers.push(header);
-        this.subject.notify('onHeaderChanged', header);
+        this.subject.notify('onHeaderChanged', { detail: header });
     }
 
     /**

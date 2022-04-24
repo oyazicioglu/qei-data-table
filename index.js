@@ -65,13 +65,24 @@ const rows = [
     }),
 ];
 
-const dataTable = new DataTable(headers, rows);
+const dataTable = new DataTable();
+
 dataTable.onRowChanged((e) => {
-    console.log(e);
+    console.log(e.detail);
 });
 
 dataTable.onHeaderChanged((e) => {
-    console.log(e);
+    console.log(e.detail);
 });
 
+dataTable.onRowsSet((e) => {
+    console.log(e.detail);
+});
+
+dataTable.onHeadersSet((e) => {
+    console.log(e.detail);
+});
+
+dataTable.setRows(rows);
+dataTable.setHeaders(headers);
 dataTable.addHeader(new HeaderCell({ key: 'header5', value: 'Header 5', sortable: false, visible: true }));
