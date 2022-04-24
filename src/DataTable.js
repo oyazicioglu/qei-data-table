@@ -1,6 +1,7 @@
 import { HeaderCell } from './HeaderCell.js';
 import { JsonTableAdapter } from './JsonTableAdapter.js';
 import { Row } from './Row.js';
+import { Subject } from './Subject.js';
 
 export class DataTable {
     /**
@@ -8,8 +9,9 @@ export class DataTable {
      * @param {Row[]} rows
      */
     constructor(headers = [], rows = []) {
-        this.headers = headers;
-        this.rows = rows;
+        this.subject = new Subject();
+        this.setHeaders(headers);
+        this.setRows(rows);
     }
 
     getHeaders(showHidden = false) {
@@ -20,11 +22,20 @@ export class DataTable {
         return showHidden ? this.rows : this.rows.filter((r) => r.isVisible());
     }
 
+    onRowChanged(callback) {
+        this.subject.subscribe('onRowChanged', callback);
+    }
+
+    onHeaderChanged(callback) {
+        this.subject.subscribe('onHeaderChanged', callback);
+    }
+
     /**
      * @param {Row[]} rows
      */
     setRows(rows) {
         this.rows = rows;
+        this.subject.notify('onRowChanged', rows);
     }
 
     /**
@@ -32,6 +43,7 @@ export class DataTable {
      */
     setHeaders(headers) {
         this.headers = headers;
+        this.subject.notify('onHeaderChanged', headers);
     }
 
     /**
@@ -39,6 +51,7 @@ export class DataTable {
      */
     addRow(row) {
         this.rows.push(row);
+        this.subject.notify('onRowChanged', row);
     }
 
     /**
@@ -46,6 +59,7 @@ export class DataTable {
      */
     addHeader(header) {
         this.headers.push(header);
+        this.subject.notify('onHeaderChanged', header);
     }
 
     /**
