@@ -43,7 +43,7 @@ export class DataTable {
      */
     setRows(rows) {
         this.rows = rows;
-        this.subject.notify('onRowsSet', { detail: rows });
+        this.subject.notify('onRowsSet', { rows });
     }
 
     /**
@@ -51,7 +51,7 @@ export class DataTable {
      */
     setHeaders(headers) {
         this.headers = headers;
-        this.subject.notify('onHeadersSet', { detail: headers });
+        this.subject.notify('onHeadersSet', { headers });
     }
 
     /**
@@ -59,7 +59,7 @@ export class DataTable {
      */
     addRow(row) {
         this.rows.push(row);
-        this.subject.notify('onRowChanged', { detail: row });
+        this.subject.notify('onRowChanged', { row });
     }
 
     /**
@@ -67,7 +67,15 @@ export class DataTable {
      */
     addHeader(header) {
         this.headers.push(header);
-        this.subject.notify('onHeaderChanged', { detail: header });
+        this.subject.notify('onHeaderChanged', { header });
+    }
+
+    hideColumn(uuid) {
+        this.headers.forEach((header, index) => {
+            if (header.getUUId() === uuid) {
+                header.setVisible(false);
+            }
+        });
     }
 
     /**

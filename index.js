@@ -68,19 +68,19 @@ const rows = [
 const dataTable = new DataTable();
 
 dataTable.onRowChanged((e) => {
-    console.log(e.detail);
+    console.log(e.row);
 });
 
 dataTable.onHeaderChanged((e) => {
-    console.log(e.detail);
+    console.log(e.header);
 });
 
 dataTable.onRowsSet((e) => {
-    console.log(e.detail);
+    console.log(e.rows);
 });
 
 dataTable.onHeadersSet((e) => {
-    console.log(e.detail);
+    console.log(e.headers);
 });
 
 dataTable.setRows(rows);
