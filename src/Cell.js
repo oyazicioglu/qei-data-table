@@ -18,12 +18,30 @@ export class Cell {
      * @param {string} constructor.key
      * @param {any} constructor.value
      * @param {string} constructor.type
+     * @param {Subject} constructor.eventSubject
      */
-    constructor({ key, value, type = 'string' }) {
+    constructor({ key, value, type = 'string', eventSubject = undefined }) {
         this.#key = key;
         this.#value = value;
         this.#type = type;
         this.#uuid = Utils.createUUID();
+        this.eventSubject = eventSubject;
+    }
+
+    onValueChanged(callback) {
+        if (!this.eventSubject) {
+            return;
+        }
+
+        this.eventSubject.subscribe('onCellValueChanged', callback);
+    }
+
+    onTypeChanged(callback) {
+        if (!this.eventSubject) {
+            return;
+        }
+
+        this.eventSubject.subscribe('onCellTypeChanged', callback);
     }
 
     getKey() {
@@ -47,6 +65,10 @@ export class Cell {
      */
     setValue(value) {
         this.#value = value;
+
+        if (this.eventSubject) {
+            this.eventSubject.notify('onCellValueChanged', { cell: this, value });
+        }
     }
 
     /**
@@ -61,6 +83,10 @@ export class Cell {
      */
     setType(type) {
         this.#type = type;
+
+        if (this.eventSubject) {
+            this.eventSubject.notify('onCellTypeChanged', { cell: this, type });
+        }
     }
 
     toValueObject() {

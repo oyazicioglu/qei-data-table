@@ -8,11 +8,30 @@ export class Header {
     #uuid;
 
     /**
-     * @param {HeaderCell[]} cells
+     * @param {Object} constructor
+     * @param {HeaderCell[]} constructor.cells
+     * @param {Subject} constructor.eventSubject
      */
-    constructor(cells = []) {
+    constructor({ cells = [], eventSubject = undefined }) {
         this.#setCells(cells);
         this.#uuid = Utils.createUUID();
+        this.eventSubject = eventSubject;
+    }
+
+    onCellsChanged(callback) {
+        if (!this.eventSubject) {
+            return;
+        }
+
+        this.eventSubject.subscribe('onHeaderCellsChanged', callback);
+    }
+
+    onCellChanged(callback) {
+        if (!this.eventSubject) {
+            return;
+        }
+
+        this.eventSubject.subscribe('onHeaderCellChanged', callback);
     }
 
     getCells() {
@@ -24,6 +43,10 @@ export class Header {
      */
     setCells(cells) {
         this.#cells = cells;
+
+        if (this.eventSubject) {
+            this.eventSubject.notify('onHeaderCellsChanged', { cells });
+        }
     }
 
     /**
@@ -31,11 +54,19 @@ export class Header {
      */
     addCell(cell) {
         this.#cells.push(cell);
+
+        if (this.eventSubject) {
+            this.eventSubject.notify('onHeaderCellChanged', { cell });
+        }
     }
 
     removeCell(cell) {
         const restCells = this.#cells.filter((c) => c !== cell);
         this.#cells = restCells;
+
+        if (this.eventSubject) {
+            this.eventSubject.notify('onHeaderCellsChanged', { cells: restCells, cell });
+        }
     }
 
     getUUId() {

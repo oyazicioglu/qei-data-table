@@ -1,4 +1,5 @@
 import { Cell } from './Cell.js';
+import { Subject } from './Subject.js';
 import { Utils } from './Utils.js';
 
 export class Row {
@@ -18,12 +19,46 @@ export class Row {
      * @param {Cell[]} constructor.cells
      * @param {boolean} constructor.selectable
      * @param {boolean} constructor.visible
+     * @param {Subject} constructor.eventSubject
      */
-    constructor({ cells = [], selectable = true, visible = true }) {
+    constructor({ cells = [], selectable = true, visible = true, eventSubject = undefined }) {
         this.#cells = cells;
         this.#selectable = selectable;
         this.#visible = visible;
         this.#uuid = Utils.createUUID();
+        this.eventSubject = eventSubject;
+    }
+
+    onCellsChanged(callback) {
+        if (!this.eventSubject) {
+            return;
+        }
+
+        this.eventSubject.subscribe('onRowCellsChanged', callback);
+    }
+
+    onCellChanged(callback) {
+        if (!this.eventSubject) {
+            return;
+        }
+
+        this.eventSubject.subscribe('onRowCellChanged', callback);
+    }
+
+    onVisibleChanged(callback) {
+        if (!this.eventSubject) {
+            return;
+        }
+
+        this.eventSubject.subscribe('onRowVisibleChanged', callback);
+    }
+
+    onSelectableChanged(callback) {
+        if (!this.eventSubject) {
+            return;
+        }
+
+        this.eventSubject.subscribe('onRowSelectableChanged', callback);
     }
 
     isVisible() {
@@ -47,6 +82,10 @@ export class Row {
      */
     setCells(cells) {
         this.#cells = cells;
+
+        if (this.eventSubject) {
+            this.eventSubject.notify('onRowCellsChanged', { row: this, cells });
+        }
     }
 
     /**
@@ -54,6 +93,10 @@ export class Row {
      */
     addCell(cell) {
         this.#cells.push(cell);
+
+        if (this.eventSubject) {
+            this.eventSubject.notify('onRowCellChanged', { row: this, cell });
+        }
     }
 
     /**
@@ -61,6 +104,10 @@ export class Row {
      */
     setSelectable(selectable) {
         this.#selectable = selectable;
+
+        if (this.eventSubject) {
+            this.eventSubject.notify('onRowSelectableChanged', { row: this, selectable });
+        }
     }
 
     /**
@@ -68,6 +115,10 @@ export class Row {
      */
     setVisible(visible) {
         this.#visible = visible;
+
+        if (this.eventSubject) {
+            this.eventSubject.notify('onRowVisibleChanged', { row: this, visible });
+        }
     }
 
     toValueObject() {

@@ -1,4 +1,5 @@
 import { Cell } from './Cell.js';
+import { Subject } from './Subject.js';
 
 export class HeaderCell extends Cell {
     /** @type {boolean} */
@@ -14,11 +15,27 @@ export class HeaderCell extends Cell {
      * @param {any} constructor.value
      * @param {boolean} constructor.sortable
      * @param {boolean} constructor.visible
+     * @param {Subject} constructor.eventSubject
      */
-    constructor({ key, sortable = true, visible = true, value, type = 'string' }) {
+    constructor({ key, sortable = true, visible = true, value, type = 'string', eventSubject = undefined }) {
         super({ key, value, type });
         this.#sortable = sortable;
         this.#visible = visible;
+        this.eventSubject = this.eventSubject;
+    }
+
+    /**
+     * @param {CallableFunction} callback
+     */
+    onHeaderVisibleChanged(callback) {
+        this.eventSubject.subscribe('onHeaderVisibleChanged', callback);
+    }
+
+    /**
+     * @param {CallableFunction} callback
+     */
+    onHeaderSortableChanged(callback) {
+        this.eventSubject.subscribe('onHeaderSortableChanged', callback);
     }
 
     isSortable() {
@@ -31,10 +48,17 @@ export class HeaderCell extends Cell {
 
     setSortable(sortable) {
         this.#sortable = sortable;
+        if (this.eventSubject) {
+            this.eventSubject.notify('onHeaderSortableChanged', { header: this });
+        }
     }
 
     setVisible(visible) {
         this.#visible = visible;
+
+        if (this.eventSubject) {
+            this.eventSubject.notify('onHeaderVisibleChanged', { header: this });
+        }
     }
 
     toValueObject() {
