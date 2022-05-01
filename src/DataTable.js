@@ -1,81 +1,94 @@
+import { Header } from './Header.js';
 import { HeaderCell } from './HeaderCell.js';
 import { JsonTableAdapter } from './JsonTableAdapter.js';
 import { Row } from './Row.js';
 import { Subject } from './Subject.js';
 
 export class DataTable {
+    /** @type {Header} */
+    #header = [];
+
+    /** @type {Row[]} */
+    #rows = [];
+
     /**
-     * @param {HeaderCell[]} headers
+     * @param {Header} header
      * @param {Row[]} rows
+     * @param {Subject} subject
      */
-    constructor(headers = [], rows = []) {
-        this.subject = new Subject();
-        this.setHeaders(headers);
+    constructor(header = undefined, rows = [], eventSubject) {
+        this.eventSubject = eventSubject;
+        this.setHeader(header);
         this.setRows(rows);
     }
 
     getHeaders(showHidden = false) {
-        return showHidden ? this.headers : this.headers.filter((h) => h.isVisible());
+        return showHidden ? this.#header : this.#header.getCells().filter((headerCell) => headerCell.isVisible());
     }
 
     getRows(showHidden = false) {
-        return showHidden ? this.rows : this.rows.filter((r) => r.isVisible());
-    }
-
-    onRowsSet(callback) {
-        this.subject.subscribe('onRowsSet', callback);
-    }
-
-    onHeadersSet(callback) {
-        this.subject.subscribe('onHeadersSet', callback);
+        return showHidden ? this.#rows : this.#rows.filter((r) => r.isVisible());
     }
 
     onRowChanged(callback) {
-        this.subject.subscribe('onRowChanged', callback);
+        this.eventSubject.subscribe('onRowChanged', callback);
     }
 
     onHeaderChanged(callback) {
-        this.subject.subscribe('onHeaderChanged', callback);
+        this.eventSubject.subscribe('onHeaderChanged', callback);
     }
 
     /**
      * @param {Row[]} rows
      */
     setRows(rows) {
-        this.rows = rows;
-        this.subject.notify('onRowsSet', { rows });
+        rows.forEach((row) => {
+            this.addRow(row);
+        });
+
+        this.eventSubject.notify('onRowsSet', { rows });
     }
 
     /**
-     * @param {HeaderCell[]} headers
+     * @param {Header} header
      */
-    setHeaders(headers) {
-        this.headers = headers;
-        this.subject.notify('onHeadersSet', { headers });
+    setHeader(header) {
+        header.getCells().forEach((headerCell) => {
+            headerCell.eventSubject = this.eventSubject;
+            this.addHeaderCell(headerCell);
+        });
+
+        this.eventSubject.notify('onHeadersSet', { header });
     }
 
     /**
      * @param {Row} row
      */
     addRow(row) {
-        this.rows.push(row);
-        this.subject.notify('onRowChanged', { row });
+        row.eventSubject = this.eventSubject;
+
+        row.onCellChanged((cell) => {
+            console.log(cell);
+        });
+
+        this.#rows.push(row);
+        this.eventSubject.notify('onRowChanged', { row });
     }
 
     /**
-     * @param {HeaderCell} header
+     * @param {HeaderCell} headerCell
      */
-    addHeader(header) {
-        this.headers.push(header);
-        this.subject.notify('onHeaderChanged', { header });
-    }
-
-    hideColumn(uuid) {
-        this.headers.forEach((header, index) => {
-            if (header.getUUId() === uuid) {
-                header.setVisible(false);
-            }
+    addHeaderCell(headerCell) {
+        headerCell.onHeaderSortableChanged(({ cell, sortable }) => {
+            console.log(cell, sortable);
         });
+
+        headerCell.onHeaderVisibleChanged(({ cell, visible }) => {
+            console.log(cell, visible);
+        });
+
+        this.#header.push(headerCell);
+        this.eventSubject.notify('onHeaderChanged', { headerCell });
     }
 
     /**
@@ -83,7 +96,7 @@ export class DataTable {
      */
     createFromJsonData(jsonData) {
         const jsonAdapter = new JsonTableAdapter(jsonData);
-        this.setHeaders(jsonAdapter.createHeaders());
+        this.setHeader(jsonAdapter.createHeaders());
         this.setRows(jsonAdapter.createRows());
     }
 

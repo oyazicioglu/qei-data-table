@@ -21,11 +21,11 @@ export class Cell {
      * @param {Subject} constructor.eventSubject
      */
     constructor({ key, value, type = 'string', eventSubject = undefined }) {
-        this.#key = key;
-        this.#value = value;
-        this.#type = type;
-        this.#uuid = Utils.createUUID();
         this.eventSubject = eventSubject;
+        this.setValue(value);
+        this.setKey(key);
+        this.setType(type);
+        this.#uuid = Utils.createUUID();
     }
 
     onValueChanged(callback) {

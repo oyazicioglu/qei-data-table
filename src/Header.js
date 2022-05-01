@@ -3,8 +3,9 @@ import { Utils } from './Utils.js';
 
 export class Header {
     /** @type {HeaderCell[]} */
-    #cells;
+    #cells = [];
 
+    /** @type {string} */
     #uuid;
 
     /**
@@ -13,9 +14,9 @@ export class Header {
      * @param {Subject} constructor.eventSubject
      */
     constructor({ cells = [], eventSubject = undefined }) {
-        this.#setCells(cells);
-        this.#uuid = Utils.createUUID();
         this.eventSubject = eventSubject;
+        this.setCells(cells);
+        this.#uuid = Utils.createUUID();
     }
 
     onCellsChanged(callback) {

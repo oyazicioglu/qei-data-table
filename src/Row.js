@@ -4,7 +4,7 @@ import { Utils } from './Utils.js';
 
 export class Row {
     /** @type {Cell[]} */
-    #cells;
+    #cells = [];
 
     /** @type {boolean} */
     #selectable;
@@ -22,11 +22,11 @@ export class Row {
      * @param {Subject} constructor.eventSubject
      */
     constructor({ cells = [], selectable = true, visible = true, eventSubject = undefined }) {
-        this.#cells = cells;
-        this.#selectable = selectable;
-        this.#visible = visible;
-        this.#uuid = Utils.createUUID();
         this.eventSubject = eventSubject;
+        this.setCells(cells);
+        this.setSelectable(selectable);
+        this.setVisible(visible);
+        this.#uuid = Utils.createUUID();
     }
 
     onCellsChanged(callback) {
@@ -81,10 +81,12 @@ export class Row {
      * @param {Cell[]} cells
      */
     setCells(cells) {
-        this.#cells = cells;
+        cells.forEach((cell) => {
+            this.#cells.push(new Cell({ key: cell.key, value: cell.value, type: cell.type, eventSubject: this.eventSubject }));
+        });
 
         if (this.eventSubject) {
-            this.eventSubject.notify('onRowCellsChanged', { row: this, cells });
+            this.eventSubject.notify('onRowCellsChanged', { row: this, cells: this.#cells });
         }
     }
 
@@ -92,10 +94,11 @@ export class Row {
      * @param {Cell} cell
      */
     addCell(cell) {
-        this.#cells.push(cell);
+        const newCell = new Cell({ key: cell.key, value: cell.value, type: cell.type, eventSubject: this.eventSubject });
+        this.#cells.push(newCell);
 
         if (this.eventSubject) {
-            this.eventSubject.notify('onRowCellChanged', { row: this, cell });
+            this.eventSubject.notify('onRowCellChanged', { row: this, cell: newCell });
         }
     }
 

@@ -18,10 +18,9 @@ export class HeaderCell extends Cell {
      * @param {Subject} constructor.eventSubject
      */
     constructor({ key, sortable = true, visible = true, value, type = 'string', eventSubject = undefined }) {
-        super({ key, value, type });
-        this.#sortable = sortable;
-        this.#visible = visible;
-        this.eventSubject = this.eventSubject;
+        super({ key, value, type, eventSubject });
+        this.setVisible(visible);
+        this.setSortable(sortable);
     }
 
     /**
@@ -49,7 +48,7 @@ export class HeaderCell extends Cell {
     setSortable(sortable) {
         this.#sortable = sortable;
         if (this.eventSubject) {
-            this.eventSubject.notify('onHeaderSortableChanged', { header: this });
+            this.eventSubject.notify('onHeaderSortableChanged', { cell: this, sortable });
         }
     }
 
@@ -57,7 +56,7 @@ export class HeaderCell extends Cell {
         this.#visible = visible;
 
         if (this.eventSubject) {
-            this.eventSubject.notify('onHeaderVisibleChanged', { header: this });
+            this.eventSubject.notify('onHeaderVisibleChanged', { cell: this, visible });
         }
     }
 
